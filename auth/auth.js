@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import crypto from 'crypto';
-import { Mongo } from '../database/mongo.js';
+import { Mongo } from '../src/database/mongo.js';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import { buffer } from 'stream/consumers';
@@ -18,7 +18,7 @@ passport.use(new LocalStrategy.Strategy({ usernameField: 'email' }, async (email
         return callback(null, false )
     }
 
-const saltBuffer = user.salt.saltBuffer
+const saltBuffer = user.salt.buffer
 
 crypto.pbkdf2(password, saltBuffer, 310000, 16, 'sha256', (err, hashedPassord) => {
     if (err) {
@@ -26,7 +26,7 @@ crypto.pbkdf2(password, saltBuffer, 310000, 16, 'sha256', (err, hashedPassord) =
     }
     const userPasswordBuffer = Buffer.from(user.password.buffer)
     
-    if(!crypto.timingSafeEqual(usedPassordBuffer, hashedPassord)) {
+    if(!crypto.timingSafeEqual(userPasswordBuffer, hashedPassord)) {
         return callback(null, false)
     }
 
@@ -65,7 +65,7 @@ authRouter.post('/signup', async (req, res) => {
                     text: 'Error on crypto password!',
                     err: err
                 } 
-
+            })
 
         }
 
@@ -73,24 +73,64 @@ authRouter.post('/signup', async (req, res) => {
         .collection(collectionName)
         .insertOne({
             email: req.body.email,
-            password: req.body.hashedPassord,
+            password: hashedPassword,
             salt
         })
-
-        if(result.insertId {
+        if(result.insertedId){
             const user = await Mongo.db
             .collection(collectionName)
-            .findOne({ _id: ObjectId(result.insertedId) })
+            .findOne({ _id: new ObjectId(result.insertedId) })
         
             const token = jwt.sign(user, 'secret')
                 return res.send({ 
-                    sucess: false,
-                    statusCode:500,
+                    sucess: true,
+                    statusCode:200,
                     body: {
-                        text: 'User already exists'
+                        text: 'User registred successfully',
+                        token,
+                        user,
+                        logged: true
                     }
             })
         }
-        }
     })
 })
+
+authRouter.post('/login', (req, res) => {
+    passport.authenticate('local', (error, user) => {
+        if(error){
+            return res.status(500).send({
+                sucess: false,
+            statusCode:500,
+            body: {
+                text: 'Error during authentication',
+                error
+                }
+            })
+        }
+        if(!user) {
+            return res.status(400).send({
+                sucess: false,
+                statusCode:400,
+                body: {
+                    text: 'User not found'
+                }
+            })
+        }
+
+        const token = jwt.sign(user, 'secret')
+        return res.send({
+            sucess: true,
+            statusCode:200,
+            body: {
+                text: 'User logged in successfully',
+                token,
+                user,
+        
+            }
+        })
+
+    })(req, res)
+})
+
+export default authRouter

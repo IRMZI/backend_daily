@@ -2,6 +2,7 @@ import { Mongo } from './database/mongo.js';
 import { config } from 'dotenv';
 import express from 'express';
 import cors from 'cors';
+import authRouter from '../auth/auth.js';
 
 config()
 
@@ -17,21 +18,21 @@ async function main() {
     app.use(express.json());
     app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send({
-        sucess: true,
-        statusCode: 200,
-        body: 'Hello World'
+    app.get('/', (req, res) => {
+        res.send({
+            sucess: true,
+            statusCode: 200,
+            body: 'Hello World'
+        })
     })
-})
 
-app.listen(port, () => {
-    console.log(`Server running on: http://${hostname}:${port}`);
-})
+    app.use('/auth', authRouter);
     
+    app.listen(port, () => {
+        console.log(`Server running on: http://${hostname}:${port}`);
+    })
     
     console.log(mongoConnection);
-
 };
 
 main()
