@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import crypto from 'crypto';
-import { Mongo } from '../src/database/mongo.js';
+import { Mongo } from '../database/mongo.js';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import { buffer } from 'stream/consumers';
@@ -76,6 +76,7 @@ authRouter.post('/signup', async (req, res) => {
             password: hashedPassword,
             salt
         })
+
         if(result.insertedId){
             const user = await Mongo.db
             .collection(collectionName)
@@ -113,7 +114,7 @@ authRouter.post('/login', (req, res) => {
                 sucess: false,
                 statusCode:400,
                 body: {
-                    text: 'User not found'
+                    text: 'Credentials are invalid'
                 }
             })
         }

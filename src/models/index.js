@@ -1,1 +1,0 @@
-// This file defines the data models used in the application, typically interacting with a database.

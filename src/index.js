@@ -2,7 +2,9 @@ import { Mongo } from './database/mongo.js';
 import { config } from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import authRouter from '../auth/auth.js';
+import authRouter from './auth/auth.js';
+import usersRouter from './routes/users.js';
+
 
 config()
 
@@ -26,13 +28,15 @@ async function main() {
         })
     })
 
-    app.use('/auth', authRouter);
-    
+    // Routes
+    app.use('/auth', authRouter)
+    app.use('/users', usersRouter)
+
     app.listen(port, () => {
         console.log(`Server running on: http://${hostname}:${port}`);
     })
     
-    console.log(mongoConnection);
+    
 };
 
 main()
