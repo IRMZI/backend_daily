@@ -1,0 +1,47 @@
+[
+    {
+        "name": "Cogumelo Paris Fresco",
+        "price": 15.00,
+        "available": true,
+        "description": "Cogumelo Paris fresco e de alta qualidade, perfeito para adicionar um sabor suave e único às suas receitas!",
+        "ingredients": ["Cogumelo Paris"],
+        "imgUrl": "../../assets/cogumeloParis.png",
+        "category": "Fresco"
+    },
+    {
+        "name": "Cogumelo Portobello",
+        "price": 17.00,
+        "available": true,
+        "description": "O cogumelo Portobello é robusto, de sabor marcante e ideal para grelhar ou rechear!",
+        "ingredients": ["Cogumelo Portobello"],
+        "imgUrl": "../../assets/cogumeloPortobello.png",
+        "category": "Fresco"
+    },
+    {
+        "name": "Cogumelo Shitake",
+        "price": 18.00,
+        "available": true,
+        "description": "Cogumelo Shitake fresco e suculento, ótimo para ensopados, saladas ou pratos orientais!",
+        "ingredients": ["Cogumelo Shitake"],
+        "imgUrl": "../../assets/cogumeloShitake.png",
+        "category": "Fresco"
+    },
+    {
+        "name": "Cogumelo Shimeji Branco",
+        "price": 11.99,
+        "available": true,
+        "description": "Shimeji branco, de sabor delicado e textura suave, perfeito para pratos refinados!",
+        "ingredients": ["Cogumelo Shimeji Branco"],
+        "imgUrl": "../../assets/shimejiBranco.png",
+        "category": "Fresco"
+    },
+    {
+        "name": "Cogumelo Shimeji Preto",
+        "price": 11.99,
+        "available": true,
+        "description": "Shimeji preto com sabor marcante, ideal para refogados ou pratos tradicionais japoneses.",
+        "ingredients": ["Cogumelo Shimeji Preto"],
+        "imgUrl": "../../assets/shimejiPreto.png",
+        "category": "Fresco"
+    }
+]
